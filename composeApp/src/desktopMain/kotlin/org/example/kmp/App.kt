@@ -1,7 +1,6 @@
 package org.example.kmp
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.Button
@@ -10,26 +9,46 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import org.jetbrains.compose.resources.painterResource
+import kotlinx.coroutines.launch
 import org.jetbrains.compose.ui.tooling.preview.Preview
-
-import studiouspuddle.composeapp.generated.resources.Res
-import studiouspuddle.composeapp.generated.resources.compose_multiplatform
 
 @Composable
 @Preview
 fun App() {
+    val petsApi = PetsApiClient()
+
     MaterialTheme {
+        val scope = rememberCoroutineScope()
         var showContent by remember { mutableStateOf(false) }
+        var text by remember { mutableStateOf("Loading...") }
+
         Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
+            LaunchedEffect(true) {
+                scope.launch {
+                    text = try {
+                        petsApi.fetchPets().getOrElse(0) {
+                            Pet(
+                                name = "Diego",
+                                photoUrls = listOf("https://images.dog.ceo/breeds/setter-irish/n02100877_4371.jpg"),
+                                id = null,
+                                category = null,
+                                status = null,
+                            )
+                        }.name
+                    } catch (e: Exception) {
+                        e.localizedMessage ?: "error"
+                    }
+                }
+            }
             Button(onClick = { showContent = !showContent }) {
-                Text("Click me!")
+                Text("Fetch pets!")
             }
             AnimatedVisibility(showContent) {
-                val greeting = remember { Greeting().greet() }
-                Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-                    Image(painterResource(Res.drawable.compose_multiplatform), null)
-                    Text("Compose: $greeting")
+                Column(
+                    Modifier.fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(text)
                 }
             }
         }
