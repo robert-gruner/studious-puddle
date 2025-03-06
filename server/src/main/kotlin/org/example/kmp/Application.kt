@@ -1,33 +1,29 @@
 package org.example.kmp
 
+import eu.vendeli.rethis.ReThis
+import eu.vendeli.rethis.commands.jsonGet
 import io.ktor.serialization.kotlinx.json.json
-import io.ktor.server.engine.*
-import io.ktor.server.netty.*
 import io.ktor.server.application.*
 import io.ktor.server.plugins.contentnegotiation.*
 import io.ktor.server.response.respond
 import io.ktor.server.routing.*
+import kotlinx.serialization.json.Json
 
-fun main() {
-    embeddedServer(Netty, port = SERVER_PORT) {
-        install(ContentNegotiation) {
-            json()
-        }
-        routing {
-            get("/pets") {
-                val pet = Pet(
-                    name = "Fluffy",
-                    photoUrls = listOf("https://images.dog.ceo/breeds/havanese/00100trPORTRAIT_00100_BURST20191112123933390_COVER.jpg"),
-                    id = null,
-                    category = null,
-                    status = null,
-                )
-                call.respond(listOf(pet))
-            }
-        }
-    }.start(wait = true)
-}
+
+fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
 fun Application.module() {
+    val redisClient = ReThis()
 
+    install(createSeedingPlugin(redisClient))
+    install(ContentNegotiation) {
+        json()
+    }
+
+    routing {
+        get("/pets") {
+            val pets = redisClient.jsonGet("pets") ?: "{}"
+            call.respond(Json.decodeFromString<PetEntities>(pets).entities)
+        }
+    }
 }

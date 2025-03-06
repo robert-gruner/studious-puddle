@@ -19,8 +19,9 @@ This is a Kotlin Multiplatform project targeting `Desktop` & `Server`.
 
 # Functionality
 ## Database
-- Schema: TODO Create a database schema to store the pets, pet stores and users.
+- Schema: Create a database schema to store the pets, pet stores and users.
 - `Redis` serves as cache for JSON/NoSQL data
+> Server requires a running Redis instance at port 6379
 
 ## API Implementation
 - use OpenAPI v3
@@ -39,4 +40,5 @@ This is a Kotlin Multiplatform project targeting `Desktop` & `Server`.
 
 # References
 * PetStore API source: https://editor.swagger.io/?url=https://raw.githubusercontent.com/swagger-api/swagger-petstore/master/src/main/resources/openapi.yaml
+* DogAPI: https://dog.ceo/dog-api/
 * Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html)

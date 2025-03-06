@@ -4,12 +4,15 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
+data class PetEntities(val entities: List<Pet>)
+
+@Serializable
 data class Pet(
-    val id: Int?,
+    val id: Int,
     val name: String,
-    val category: Category?,
+    val category: Category,
     val photoUrls: List<String>,
-    val status: Status?
+    val status: Status
 )
 
 @Serializable
@@ -27,6 +30,6 @@ enum class Status {
 
 @Serializable
 data class Category(
-    val id: Int?,
-    val name: String?,
+    val id: Int,
+    val name: String,
 )
