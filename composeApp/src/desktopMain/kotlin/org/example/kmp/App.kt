@@ -9,6 +9,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.window.application
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -20,35 +21,23 @@ fun App() {
     MaterialTheme {
         val scope = rememberCoroutineScope()
         var showContent by remember { mutableStateOf(false) }
-        var text by remember { mutableStateOf("Loading...") }
+        var pets by remember { mutableStateOf<List<Pet>>(emptyList()) }
 
         Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
             LaunchedEffect(true) {
                 scope.launch {
-                    text = try {
-                        petsApi.fetchPets().getOrElse(0) {
-                            Pet(
-                                name = "Diego",
-                                photoUrls = listOf("https://images.dog.ceo/breeds/setter-irish/n02100877_4371.jpg"),
-                                id = null,
-                                category = null,
-                                status = null,
-                            )
-                        }.name
-                    } catch (e: Exception) {
-                        e.localizedMessage ?: "error"
-                    }
+                    pets = petsApi.fetchPets()
                 }
             }
             Button(onClick = { showContent = !showContent }) {
-                Text("Fetch pets!")
+                Text("Show pets!")
             }
             AnimatedVisibility(showContent) {
                 Column(
                     Modifier.fillMaxWidth(),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Text(text)
+                    pets.forEach { Text(it.name) }
                 }
             }
         }
