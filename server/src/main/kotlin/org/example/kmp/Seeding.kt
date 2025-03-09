@@ -6,6 +6,10 @@ import io.ktor.server.application.*
 import io.ktor.server.application.hooks.*
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.Json
+import org.example.kmp.pets.Category
+import org.example.kmp.pets.Pet
+import org.example.kmp.pets.PetEntities
+import org.example.kmp.pets.Status
 
 object AvailableCategory {
     val small = Category(1, "Small")

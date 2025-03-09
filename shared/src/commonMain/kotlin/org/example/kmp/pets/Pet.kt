@@ -1,4 +1,4 @@
-package org.example.kmp
+package org.example.kmp.pets
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

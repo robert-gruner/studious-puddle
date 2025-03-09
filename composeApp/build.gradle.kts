@@ -23,6 +23,7 @@ kotlin {
             implementation(libs.coil.network)
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
+            implementation(libs.androidx.navigation)
             implementation(projects.shared)
         }
         desktopMain.dependencies {
@@ -31,7 +32,6 @@ kotlin {
         }
     }
 }
-
 
 compose.desktop {
     application {

@@ -9,6 +9,8 @@ import io.ktor.server.plugins.contentnegotiation.*
 import io.ktor.server.response.respond
 import io.ktor.server.routing.*
 import kotlinx.serialization.json.Json
+import org.example.kmp.pets.Pet
+import org.example.kmp.pets.PetEntities
 
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)

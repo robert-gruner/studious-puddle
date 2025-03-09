@@ -1,59 +1,64 @@
 package org.example.kmp
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.launch
+import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import org.example.kmp.pets.PetDetail
+import org.example.kmp.pets.PetList
 import org.jetbrains.compose.ui.tooling.preview.Preview
+
+sealed class AppScreen(val route: String) {
+    data object PetList : AppScreen("petList")
+    data object PetDetail : AppScreen("petDetail/{id}") {
+        fun createRoute(id: Int) = "petDetail/$id"
+    }
+}
 
 @Composable
 @Preview
 fun App() {
-    val petsApi = PetsApiClient()
-
+    val navController = rememberNavController()
     MaterialTheme {
-        val scope = rememberCoroutineScope()
-        var pets by remember { mutableStateOf<List<Pet>>(emptyList()) }
-
-        Column(
-            modifier = Modifier.fillMaxWidth().fillMaxHeight().background(
-                color = MaterialTheme.colors.primary.copy(0.1f),
-            ).padding(8.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            LaunchedEffect(true) {
-                scope.launch {
-                    pets = petsApi.fetchPets()
-                }
-            }
-
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(1),
-                horizontalArrangement = Arrangement.spacedBy(16.dp),
-                verticalArrangement = Arrangement.run { spacedBy(16.dp) }
+        Scaffold {
+            NavHost(
+                navController = navController,
+                startDestination = AppScreen.PetList.route,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(8.dp)
             ) {
-                items(pets) {
-                    PetCard(pet = it, onCardClick = {})
+                composable(route = AppScreen.PetList.route) {
+                    PetList(
+                        onItemClick = {
+                            navController.navigate(
+                                route = AppScreen.PetDetail.createRoute(it),
+                            )
+                        }
+                    )
+                }
+                composable(route = AppScreen.PetDetail.route, arguments = listOf(
+                    navArgument("id") {
+                        type = NavType.IntType
+                    }
+                )) { backStackEntry ->
+                    val id = backStackEntry.arguments?.getInt("id")
+
+                    id?.let {
+                        PetDetail(id = id,  onBackClick = {
+                            navController.popBackStack()
+                        })
+                    }
                 }
             }
-
 
         }
     }

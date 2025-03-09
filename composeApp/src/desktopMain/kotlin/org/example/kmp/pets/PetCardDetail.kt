@@ -1,4 +1,4 @@
-package org.example.kmp
+package org.example.kmp.pets
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
@@ -13,11 +13,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun PetCard(
+fun PetCardDetail(
     pet: Pet,
-    onCardClick: () -> Unit = {}
 ) {
 
     Card(
@@ -27,7 +25,6 @@ fun PetCard(
             .padding(8.dp),
         elevation = 4.dp,
         backgroundColor = Color.White,
-        onClick = onCardClick
     ) {
         Row(
             modifier = Modifier.fillMaxSize(),
