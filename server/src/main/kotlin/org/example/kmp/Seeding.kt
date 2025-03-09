@@ -7,20 +7,32 @@ import io.ktor.server.application.hooks.*
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.Json
 
+object AvailableCategory {
+    val small = Category(1, "Small")
+    val big = Category(2, "Big")
+}
+
 val pets: List<Pet> = listOf(
     Pet(
         name = "Fluffy",
         photoUrls = listOf("https://images.dog.ceo/breeds/havanese/00100trPORTRAIT_00100_BURST20191112123933390_COVER.jpg"),
         id = 1,
-        category = Category(1, "Test"),
+        category = AvailableCategory.small,
         status = Status.AVAILABLE,
     ),
     Pet(
         name = "Diego",
         photoUrls = listOf("https://images.dog.ceo/breeds/hound-english/n02089973_3480.jpg"),
         id = 2,
-        category = Category(1, "Test"),
+        category = AvailableCategory.big,
         status = Status.AVAILABLE,
+    ),
+    Pet(
+        name = "Cortez",
+        photoUrls = listOf("https://images.dog.ceo/breeds/australian-kelpie/IMG_4918.jpg"),
+        id = 3,
+        category = AvailableCategory.big,
+        status = Status.PENDING,
     ),
 )
 
