@@ -6,8 +6,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -26,7 +26,7 @@ fun PetCardList(
             .height(120.dp)
             .padding(8.dp),
         elevation = 4.dp,
-        backgroundColor = Color.White,
+        backgroundColor = MaterialTheme.colors.background,
         onClick = onCardClick
     ) {
         Row(
@@ -49,7 +49,6 @@ fun PetCardList(
                 modifier = Modifier
                     .width(1.dp)
                     .height(80.dp),
-                color = Color.LightGray
             )
 
             Column(
@@ -64,17 +63,25 @@ fun PetCardList(
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Bold
                     ),
-                    color = MaterialTheme.colors.primary
                 )
 
                 Spacer(modifier = Modifier.height(4.dp))
 
-                Text(
-                    text = pet.category.name,
-                    style = MaterialTheme.typography.body2,
-                    maxLines = 2,
-                    color = Color.Gray
-                )
+                Badge(
+                    backgroundColor = MaterialTheme.colors.primary,
+                    contentColor = MaterialTheme.colors.onPrimary,
+                ) {
+                    Box(
+                        modifier = Modifier.padding(horizontal = 4.dp, vertical = 2.dp),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        Text(
+                            text = pet.status.name,
+                            fontSize = 12.sp,
+                            style = TextStyle(lineHeight = 12.sp)
+                        )
+                    }
+                }
 
             }
         }

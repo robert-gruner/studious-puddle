@@ -26,7 +26,6 @@ fun PetDetail(id: Int, onBackClick: () -> Unit) {
         }
     }
 
-
     Column {
         IconButton(
             onClick = onBackClick,
