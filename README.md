@@ -21,11 +21,11 @@ This is a Kotlin Multiplatform project targeting `Desktop` & `Server`.
 ## Database
 - Schema: Create a database schema to store the pets, pet stores and users.
 - `Redis` serves as cache for JSON/NoSQL data
-> Server requires a running Redis instance at port 6379
+> Server requires a running Redis instance at port 6379; since we use JSON we also need redis-stack
 
 ## API Implementation
-- use OpenAPI v3
-- based on `Ktor` framework
+- Powered by `Ktor` framework
+- TODO: Integrate SwaggerUI for OpenAPI
 
 ## Testing
 - Unit testing via JUnit
@@ -33,12 +33,15 @@ This is a Kotlin Multiplatform project targeting `Desktop` & `Server`.
 - TODO: https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-run-tests.html
 
 ## Frontend
+- Powered by [Compose](https://www.jetbrains.com/compose-multiplatform/) so it implements Material Design
 - Is available for at least `macOS` desktop platform
 - Talks to the API via HTTP
-- Create a nice UI for the Pet Catalog with a list and a detail-view.
-- The list view can be filtered with the given endpoints.
+- Offers a UI for the Pet Catalog with a list and a detail-view
+- TODO: The list view can be filtered with the given endpoints.
+- TODO: Apply Dark vs. Light theme depending on OS preference
 
 # References
 * PetStore API source: https://editor.swagger.io/?url=https://raw.githubusercontent.com/swagger-api/swagger-petstore/master/src/main/resources/openapi.yaml
 * DogAPI: https://dog.ceo/dog-api/
 * Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html)
+* Redis [stack](https://redis.io/docs/latest/operate/oss_and_stack/install/install-stack/mac-os/) 
